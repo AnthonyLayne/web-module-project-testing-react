@@ -51,3 +51,16 @@ test("renders show season options matching your data when the button is clicked"
     expect(seasonOption).toHaveLength(2);
   });
 });
+
+test("display function is called when the button is clicked", async () => {
+  mockFetchShow.mockResolvedValueOnce(exampleData);
+  const displayFunc = jest.fn();
+  render(<Display displayFunc={displayFunc} />);
+
+  const bttn = screen.getByRole("button");
+  userEvent.click(bttn);
+
+  await waitFor(() => {
+    expect(displayFunc).toHaveBeenCalled();
+  });
+});
