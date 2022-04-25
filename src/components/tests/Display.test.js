@@ -39,4 +39,15 @@ test("renders Show component when the button is clicked ", async () => {
   expect(showContain).toBeInTheDocument();
 });
 
-test("renders show season options matching your data when the button is clicked", () => {});
+test("renders show season options matching your data when the button is clicked", async () => {
+  mockFetchShow.mockResolvedValueOnce(exampleData);
+  render(<Display />);
+
+  const bttn = screen.getByRole("button");
+  userEvent.click(bttn);
+
+  await waitFor(() => {
+    const seasonOption = screen.queryAllByTestId("season-option");
+    expect(seasonOption).toHaveLength(2);
+  });
+});
